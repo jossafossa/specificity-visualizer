@@ -1,0 +1,20 @@
+$breakpoints: (
+  1: 28.125em,
+  2: 43.75em,
+  3: 53.125em,
+  4: 87.5em,
+  5: 125em,
+  6: 156.25em,
+);
+
+@mixin breakpoint($breakpoint) {
+  $breakpoint: map-get($breakpoints, $breakpoint);
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+:root {
+  --primary-rgb: 102, 51, 153;
+  --primary: rgb(var(--primary-rgb));
+}

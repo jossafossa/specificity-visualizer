@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Specificity Visualizer</title>
-    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="src/images/favicon.ico" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="canonical" href="https://isellsoap.github.io/specificity-visualizer/" />
@@ -24,17 +24,10 @@
         H.className = H.className.replace(/\bno-js\b/, 'js')
       })(document.documentElement)
     </script>
-    <script
-      src="<%= htmlWebpackPlugin.files.chunks['scripts/webfontloader'].entry %>"
-      async
-    ></script>
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,400i,700,700i"
-      />
-    </noscript>
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[0] %>" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,400i,700,700i"
+    />
   </head>
   <body>
     <header
@@ -271,7 +264,9 @@
               Keegan Street
             </li>
             <li>
-              <a href="https://www.projectwallace.com"><cite>Project Wallace - <abbr>CSS</abbr> Analytics</cite></a> 
+              <a href="https://www.projectwallace.com"
+                ><cite>Project Wallace - <abbr>CSS</abbr> Analytics</cite></a
+              >
               by Bart Veneman
             </li>
           </ul>
@@ -346,6 +341,6 @@
         </div>
       </section>
     </main>
-    <script src="<%= htmlWebpackPlugin.files.chunks['scripts/main'].entry %>"></script>
+    <script type="module" src="src/scripts/main.js"></script>
   </body>
 </html>

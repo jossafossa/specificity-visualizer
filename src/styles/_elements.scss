@@ -18,24 +18,23 @@ html {
   line-height: 1.5;
 }
 
-html.wf-active,
-html.no-js {
+html {
   font-family: 'Roboto Mono', monospace;
 }
 
-@media (--viewport-breakpoint-4) {
+@include breakpoint(4) {
   html {
     font-size: 112.5%;
   }
 }
 
-@media (--viewport-breakpoint-5) {
+@include breakpoint(5) {
   html {
     font-size: 120%;
   }
 }
 
-@media (--viewport-breakpoint-6) {
+@include breakpoint(6) {
   html {
     font-size: 125%;
   }
@@ -64,8 +63,8 @@ h2 {
 
 a {
   background-color: transparent;
-  border-bottom: 3px solid rgba(#639, .5);
-  color: #639;
+  border-bottom: 3px solid rgba(var(--primary-rgb), 0.5);
+  color: var(--primary);
   font-weight: 700;
   text-decoration: none;
   transition: background-color 100ms ease-in, border-bottom 100ms ease-in;
@@ -73,6 +72,6 @@ a {
 
 a:focus,
 a:hover {
-  background-color: rgba(#639, .125);
-  border-bottom-color: #639;
+  background-color: rgba(var(--primary-rgb), 0.125);
+  border-bottom-color: var(--primary);
 }

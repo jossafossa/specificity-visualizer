@@ -1,4 +1,4 @@
-import '../styles/main.css'
+import '../styles/main.scss'
 
 import naturalSort from 'javascript-natural-sort'
 import uniq from 'lodash/uniq'
@@ -10,7 +10,7 @@ import {
   renderMainChart,
   renderSpecificityGroupsColumnChart,
   renderSpecificityGroupsPieChart,
-} from 'charts'
+} from './charts/index.js'
 
 const classFormErrorHidden = 'form__error_hidden'
 const classChartsHidden = 'charts_hidden'
@@ -51,13 +51,28 @@ const getAllSelectors = () => {
   return selectors
 }
 
+// fill the elementTextarea with the css from the url
+const fillTextareaFromUrl = async (url) => {
+  const response = await fetch(url)
+  const data = await response.text()
+  elementTextarea.value = data;
+  return data;
+}
+
+// get css url from the url params
+const urlParams = new URLSearchParams(window.location.search);
+const cssUrl = urlParams.get('url');
+if (cssUrl) {
+  (async () => {
+    await fillTextareaFromUrl(cssUrl);
+    visualize();
+  })();
+}
+
 const getSortedKeysByValue = (obj) =>
   Object.keys(obj).sort((keyA, keyB) => -(obj[keyA] - obj[keyB]))
 
-// main form submit
-elementForm.addEventListener('submit', (event) => {
-  event.preventDefault()
-
+const visualize = () => {
   // reset variables
   mainChartDataSeries = {
     idCategory: [],
@@ -88,11 +103,21 @@ elementForm.addEventListener('submit', (event) => {
 
   // calculate data for main chart
   specificities = getAllSelectors().map((selector) => {
+    let specificities;
+    try {
+      specificities = specificity(selector);
+    } catch(error) {
+      console.warn(`Could not parse selector: "${selector}"`);
+      return;
+    }
     return {
       selector,
-      specificity: specificity(selector).join(),
+      specificity: specificities.join(),
     }
   })
+
+  // filter out specificity values that are not valid
+  specificities = specificities.filter((element) => element)
 
   mainChartYAxisCategories = uniq(specificities.map((element) => element.specificity)).sort(
     naturalSort,
@@ -129,4 +154,10 @@ elementForm.addEventListener('submit', (event) => {
   renderMainChart(specificities, mainChartYAxisCategories, mainChartDataSeries)
   renderSpecificityGroupsColumnChart(specificityUsagesDataSeries)
   renderSpecificityGroupsPieChart(specificityUsagesDataSeries)
+}
+
+// main form submit
+elementForm.addEventListener('submit', (event) => {
+  event.preventDefault()
+  visualize();
 })
